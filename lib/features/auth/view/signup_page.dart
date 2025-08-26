@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:learn_flutter/core/theme/widgets/custom_text_field.dart';
+import 'package:learn_flutter/features/auth/repos/auth_remote_repo.dart';
 import 'package:learn_flutter/features/auth/view/login_page.dart';
 import 'package:learn_flutter/features/auth/view/widgets/custom_button.dart';
 import 'package:learn_flutter/features/auth/view/widgets/custom_with.dart';
@@ -46,10 +47,7 @@ class _SignupPageState extends State<SignupPage> {
                 key: formKey,
                 child: Column(
                   children: [
-                    CustomTextField(
-                      hintText: "Username",
-                      controller: Ucontroller,
-                    ),
+                    CustomTextField(hintText: "Email", controller: Ucontroller),
 
                     SizedBox(height: 20),
                     CustomTextField(
@@ -82,17 +80,11 @@ class _SignupPageState extends State<SignupPage> {
                 child: CustomButton(
                   text: "Sign in",
                   onTap: () {
-                    if (formKey.currentState!.validate()) {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) {
-                            return HomePage();
-                          },
-                        ),
-                        // (Route<dynamic> route) => false,
-                      );
-                    }
+                    AuthRemoteRepo().signUp(
+                      email: Ucontroller.text,
+                      password: Pcontroller.text,
+                    );
+                    if (formKey.currentState!.validate()) {}
                   },
                 ),
               ),

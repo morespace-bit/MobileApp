@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:learn_flutter/core/theme/widgets/custom_text_field.dart';
+import 'package:learn_flutter/features/auth/repos/auth_remote_repo.dart';
 import 'package:learn_flutter/features/auth/view/signup_page.dart';
 import 'package:learn_flutter/features/auth/view/widgets/custom_button.dart';
 import 'package:learn_flutter/features/auth/view/widgets/custom_with.dart';
@@ -44,10 +45,7 @@ class _LoginPageState extends State<LoginPage> {
                 key: formKey,
                 child: Column(
                   children: [
-                    CustomTextField(
-                      hintText: "Username",
-                      controller: Ucontroller,
-                    ),
+                    CustomTextField(hintText: "Email", controller: Ucontroller),
 
                     SizedBox(height: 20),
                     CustomTextField(
@@ -80,16 +78,20 @@ class _LoginPageState extends State<LoginPage> {
                 child: CustomButton(
                   text: "Login",
                   onTap: () {
+                    AuthRemoteRepo().login(
+                      email: Ucontroller.text,
+                      password: Pcontroller.text,
+                    );
                     if (formKey.currentState!.validate()) {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) {
-                            return HomePage();
-                          },
-                        ),
-                        // (Route<dynamic> route) => false,
-                      );
+                      // Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(
+                      //     builder: (context) {
+                      //       return HomePage();
+                      //     },
+                      //   ),
+                      //   // (Route<dynamic> route) => false,
+                      // );
                     }
                   },
                 ),
