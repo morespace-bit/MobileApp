@@ -9,6 +9,7 @@ import 'package:learn_flutter/features/auth/view/login_page.dart';
 import 'package:learn_flutter/features/auth/view/widgets/custom_button.dart';
 import 'package:learn_flutter/features/auth/view/widgets/custom_with.dart';
 import 'package:learn_flutter/features/auth/view/widgets/hero_widget.dart';
+import 'package:learn_flutter/features/auth/viewmodel/auth_viewmodel.dart';
 
 class SignupPage extends ConsumerStatefulWidget {
   const SignupPage({super.key});
@@ -35,6 +36,8 @@ class _SignupPageState extends ConsumerState<SignupPage> {
 
   @override
   Widget build(BuildContext context) {
+    final val = ref.watch(authViewmodelProvider);
+    print(val);
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(backgroundColor: Colors.transparent),
@@ -83,7 +86,14 @@ class _SignupPageState extends ConsumerState<SignupPage> {
                 child: CustomButton(
                   text: "Sign in",
                   onTap: () async {
-                    if (formKey.currentState!.validate()) {}
+                    if (formKey.currentState!.validate()) {
+                      ref
+                          .read(authViewmodelProvider.notifier)
+                          .signUpUser(
+                            password: Pcontroller.text,
+                            email: Ucontroller.text,
+                          );
+                    }
                   },
                 ),
               ),

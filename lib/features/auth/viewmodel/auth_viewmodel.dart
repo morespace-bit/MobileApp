@@ -10,23 +10,21 @@ final _authremoterepo = AuthRemoteRepo();
 @riverpod
 class AuthViewmodel extends _$AuthViewmodel {
   @override
-  AsyncValue<AuthToken?> build() {
-    final authToken = null;
-
-    return authToken;
+  FutureOr<AuthToken?> build() {
+    return null;
   }
 
   Future<void> signUpUser({
     required String password,
     required String email,
   }) async {
+    state = const AsyncValue.loading();
+
     final res = await _authremoterepo.signUp(email: email, password: password);
 
-    final val = switch (res) {
-      Left(value: final l) => l,
-      Right(value: final r) => r,
+    state = switch (res) {
+      Left(value: final l) => AsyncValue.error(l.message, StackTrace.current),
+      Right(value: final r) => AsyncValue.data(r),
     };
-
-    print(val.toString());
   }
 }
