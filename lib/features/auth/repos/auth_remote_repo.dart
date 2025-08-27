@@ -1,10 +1,19 @@
 import "dart:convert";
 
 import "package:fpdart/fpdart.dart";
+import "package:hooks_riverpod/hooks_riverpod.dart";
 import "package:http/http.dart" as http;
 import "package:learn_flutter/core/constants/constants.dart";
 import "package:learn_flutter/core/failure/app_fail.dart";
 import "package:learn_flutter/features/auth/model/auth_token.dart";
+import "package:riverpod_annotation/riverpod_annotation.dart";
+
+part 'auth_remote_repo.g.dart';
+
+@riverpod
+AuthRemoteRepo authremoterepo(Ref ref) {
+  return AuthRemoteRepo();
+}
 
 class AuthRemoteRepo {
   Future<Either<AppFail, AuthToken>> signUp({

@@ -1,16 +1,20 @@
 import 'package:fpdart/fpdart.dart';
 import 'package:learn_flutter/features/auth/model/auth_token.dart';
+import 'package:learn_flutter/features/auth/repos/auth_local_repo.dart';
 import 'package:learn_flutter/features/auth/repos/auth_remote_repo.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'auth_viewmodel.g.dart';
 
-final _authremoterepo = AuthRemoteRepo();
+late AuthRemoteRepo _authremoterepo;
+final _authlocalrepo = AuthLocalRepo();
 
 @riverpod
 class AuthViewmodel extends _$AuthViewmodel {
   @override
   FutureOr<AuthToken?> build() {
+    _authremoterepo = AuthRemoteRepo();
+
     return null;
   }
 
