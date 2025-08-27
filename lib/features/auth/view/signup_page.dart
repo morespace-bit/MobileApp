@@ -1,20 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fpdart/fpdart.dart'
+    hide
+        State; // because state is defined in flutter and fpdart package as well so it gets confuse so hide here
 import 'package:learn_flutter/core/theme/widgets/custom_text_field.dart';
-import 'package:learn_flutter/features/auth/repos/auth_remote_repo.dart';
+
 import 'package:learn_flutter/features/auth/view/login_page.dart';
 import 'package:learn_flutter/features/auth/view/widgets/custom_button.dart';
 import 'package:learn_flutter/features/auth/view/widgets/custom_with.dart';
 import 'package:learn_flutter/features/auth/view/widgets/hero_widget.dart';
-import 'package:learn_flutter/features/home/view/home_page.dart';
 
-class SignupPage extends StatefulWidget {
+class SignupPage extends ConsumerStatefulWidget {
   const SignupPage({super.key});
 
   @override
-  State<SignupPage> createState() => _SignupPageState();
+  ConsumerState<SignupPage> createState() => _SignupPageState();
 }
 
-class _SignupPageState extends State<SignupPage> {
+class _SignupPageState extends ConsumerState<SignupPage> {
   final formKey = GlobalKey<FormState>();
 
   final Ucontroller = TextEditingController();
@@ -79,11 +82,7 @@ class _SignupPageState extends State<SignupPage> {
                 height: 50,
                 child: CustomButton(
                   text: "Sign in",
-                  onTap: () {
-                    AuthRemoteRepo().signUp(
-                      email: Ucontroller.text,
-                      password: Pcontroller.text,
-                    );
+                  onTap: () async {
                     if (formKey.currentState!.validate()) {}
                   },
                 ),
