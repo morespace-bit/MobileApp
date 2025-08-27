@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:learn_flutter/core/theme/theme.dart';
-import 'package:learn_flutter/features/auth/view/login_page.dart';
 import 'package:learn_flutter/features/auth/view/signup_page.dart';
 
 void main() {

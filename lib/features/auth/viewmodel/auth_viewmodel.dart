@@ -27,4 +27,18 @@ class AuthViewmodel extends _$AuthViewmodel {
       Right(value: final r) => AsyncValue.data(r),
     };
   }
+
+  Future<void> LogInUser({
+    required String password,
+    required String email,
+  }) async {
+    state = const AsyncValue.loading();
+
+    final res = await _authremoterepo.login(email: email, password: password);
+
+    state = switch (res) {
+      Left(value: final l) => AsyncValue.error(l.message, StackTrace.current),
+      Right(value: final r) => AsyncValue.data(r),
+    };
+  }
 }

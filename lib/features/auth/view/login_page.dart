@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:learn_flutter/core/theme/widgets/custom_text_field.dart';
 import 'package:learn_flutter/features/auth/repos/auth_remote_repo.dart';
 import 'package:learn_flutter/features/auth/view/signup_page.dart';
 import 'package:learn_flutter/features/auth/view/widgets/custom_button.dart';
 import 'package:learn_flutter/features/auth/view/widgets/custom_with.dart';
 import 'package:learn_flutter/features/auth/view/widgets/hero_widget.dart';
-import 'package:learn_flutter/features/home/view/home_page.dart';
+import 'package:learn_flutter/features/auth/viewmodel/auth_viewmodel.dart';
 
-class LoginPage extends StatefulWidget {
+class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  ConsumerState<LoginPage> createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _LoginPageState extends ConsumerState<LoginPage> {
   final formKey = GlobalKey<FormState>();
 
   final Ucontroller = TextEditingController();
@@ -32,6 +33,24 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    final isLoading = ref.watch(authViewmodelProvider).isLoading == true;
+
+    ref.listen(authViewmodelProvider, (pre, next) {
+      next.when(
+        data: (data) {
+          ScaffoldMessenger.of(context)
+            ..hideCurrentSnackBar()
+            ..showSnackBar(SnackBar(content: Text("Loign successfull")));
+        },
+        error: (error, st) {
+          ScaffoldMessenger.of(context)
+            ..hideCurrentSnackBar()
+            ..showSnackBar(SnackBar(content: Text(error.toString())));
+        },
+        loading: () {},
+      );
+    });
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -77,11 +96,7 @@ class _LoginPageState extends State<LoginPage> {
                 height: 50,
                 child: CustomButton(
                   text: "Login",
-                  onTap: () {
-                    AuthRemoteRepo().login(
-                      email: Ucontroller.text,
-                      password: Pcontroller.text,
-                    );
+                  onTap: () async {
                     if (formKey.currentState!.validate()) {
                       // Navigator.push(
                       //   context,
@@ -92,6 +107,13 @@ class _LoginPageState extends State<LoginPage> {
                       //   ),
                       //   // (Route<dynamic> route) => false,
                       // );
+
+                      ref
+                          .read(authViewmodelProvider.notifier)
+                          .LogInUser(
+                            password: Pcontroller.text,
+                            email: Ucontroller.text,
+                          );
                     }
                   },
                 ),
