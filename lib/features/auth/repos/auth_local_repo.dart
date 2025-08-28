@@ -1,20 +1,35 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class AuthLocalRepo {
-  late SharedPreferences _authToken;
+part 'auth_local_repo.g.dart';
 
+@riverpod
+AuthLocalRepo authlocalrepo(Ref ref) {
+  return AuthLocalRepo();
+}
+
+class AuthLocalRepo {
+  SharedPreferences? _prefs; // make nullable
+
+  /// Initialize SharedPreferences
   Future<void> init() async {
-    _authToken = await SharedPreferences.getInstance();
+    _prefs = await SharedPreferences.getInstance();
   }
 
-  void setToken(String? token) {
-    if (token != null) {
-      _authToken.setString("token", token);
+  /// Save token
+  Future<void> setToken(String? token) async {
+    if (_prefs == null) await init(); // ensure initialized
+    if (token != null && token.isNotEmpty) {
+      await _prefs!.setString("token", token);
+    } else {
+      await _prefs!.remove("token");
     }
   }
 
-  String? getToken() {
-    _authToken.getString("token");
-    return null;
+  /// Get token
+  Future<String?> getToken() async {
+    if (_prefs == null) await init(); // ensure initialized
+    return _prefs!.getString("token");
   }
 }

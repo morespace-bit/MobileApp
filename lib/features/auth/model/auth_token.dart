@@ -3,9 +3,9 @@ import 'dart:convert';
 
 class AuthToken {
   final String token;
-  final String message;
+  final String? message;
 
-  const AuthToken({required this.token, required this.message});
+  const AuthToken({required this.token, this.message});
 
   AuthToken copyWith({String? token, String? message}) {
     return AuthToken(
@@ -21,7 +21,7 @@ class AuthToken {
   factory AuthToken.fromMap(Map<String, dynamic> map) {
     return AuthToken(
       token: map['token'] as String,
-      message: map['message'] as String,
+      message: map['message'] != null ? map['message'] as String : null,
     );
   }
 

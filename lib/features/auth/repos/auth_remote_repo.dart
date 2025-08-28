@@ -61,4 +61,23 @@ class AuthRemoteRepo {
       return Left(AppFail(message: e.toString()));
     }
   }
+
+  Future<Either<AppFail, AuthToken>> verify({required String token}) async {
+    try {
+      final response = await http.get(
+        Uri.parse("${Constants.backEndUrl}/api/verify"),
+        headers: {'Authorization': 'Bearer $token'},
+      );
+
+      final resMap = jsonDecode(response.body) as Map<String, dynamic>;
+
+      if (response.statusCode != 200) {
+        return Left(AppFail(message: resMap['message']));
+      }
+
+      return Right(AuthToken(token: token));
+    } catch (e) {
+      return Left(AppFail(message: e.toString()));
+    }
+  }
 }

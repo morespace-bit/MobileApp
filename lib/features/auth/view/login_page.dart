@@ -110,7 +110,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
 
                       ref
                           .read(authViewmodelProvider.notifier)
-                          .LogInUser(
+                          .logInUser(
                             password: Pcontroller.text,
                             email: Ucontroller.text,
                           );
